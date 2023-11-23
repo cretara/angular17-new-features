@@ -25,6 +25,7 @@ export class AppComponent {
     this.titleService.setTitle(this.title);
     effect(() => {
       this.checkBoxFormControl.patchValue(this.isChecked());
+      console.debug("checkBoxFormControl", this.checkBoxFormControl.value)
     })
   }
 
