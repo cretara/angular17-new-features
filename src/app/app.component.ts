@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import {Component, ViewContainerRef} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,14 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular17-new-features';
+
+  constructor(private viewContainerRef: ViewContainerRef) {
+    this.loadDynamicComponent();
+  }
+
+  private loadDynamicComponent() {
+    import('./components/dynamic/dynamic.component').then(({DynamicComponent}) => {
+      this.viewContainerRef.createComponent(DynamicComponent);
+    });
+  }
 }
