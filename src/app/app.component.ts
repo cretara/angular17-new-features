@@ -1,6 +1,9 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component, inject, ViewContainerRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
+import {HttpClient} from "@angular/common/http";
+import {DynamicModelJSON} from "./model/dynamic-model-json";
+import {DynamicComponent} from "./components/dynamic/dynamic.component";
 
 @Component({
   selector: 'app-root',
@@ -11,13 +14,50 @@ import {RouterOutlet} from '@angular/router';
 })
 export class AppComponent {
 
-  constructor(private viewContainerRef: ViewContainerRef) {
+  /**
+   * ViewContainerRef to load the component dynamically
+   */
+  #viewContainerRef = inject(ViewContainerRef);
+
+  /**
+   * HttpClient to load the JSON file
+   */
+  #httpClient = inject(HttpClient);
+
+  constructor() {
     this.loadDynamicComponent();
+
   }
 
+  /**
+   * Create the component dynamically
+   * @param componentClassName
+   * @returns {any}
+   */
+  createComponentDynamicClass(componentClassName: string): any {
+    const registryClasses = {
+      DynamicComponent
+    };
+    for (let key in registryClasses) {
+      if (key === componentClassName) {
+        // @ts-ignore
+        return new registryClasses[key]();
+      }
+    }
+  }
+
+  /**
+   * Dynamically load the component from JSON file
+   */
   private loadDynamicComponent() {
-    import('./components/dynamic/dynamic.component').then(({DynamicComponent}) => {
-      this.viewContainerRef.createComponent(DynamicComponent);
+    //loads the component from JSON file
+    this.#httpClient.get<DynamicModelJSON>('assets/dynamic-component.json').subscribe((dynamicComponentJSON: DynamicModelJSON) => {
+      dynamicComponentJSON.components.forEach((singleDynamicComponent: string) => {
+        const dynamicComponentClass = this.createComponentDynamicClass(singleDynamicComponent);
+        console.log("dynamicComponentClass", dynamicComponentClass);
+        const componentRef = this.#viewContainerRef.createComponent(dynamicComponentClass);
+        console.log("componentRef", componentRef);
+      });
     });
   }
 }
