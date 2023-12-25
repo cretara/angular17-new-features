@@ -43,8 +43,7 @@ export class AppComponent {
           console.error(`Dynamic component ${singleDynamicComponent} not found`);
           return;
         }
-        const componentRef = this.#viewContainerRef.createComponent(dynamicComponent);
-        console.log("componentRef", componentRef);
+        this.#viewContainerRef.createComponent(dynamicComponent);
       });
     });
   }
