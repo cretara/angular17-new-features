@@ -1,18 +1,19 @@
-import {Component, inject, ViewContainerRef} from '@angular/core';
+import {Component, inject, ViewChild, ViewContainerRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {HttpClient} from "@angular/common/http";
-import {DynamicModelJSON} from "./model/dynamic-model-json";
 import {dynamicComponents} from "./model/dynamic-components";
+import {ButtonModule} from "primeng/button";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, ButtonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  @ViewChild('dynamicComponent', {read: ViewContainerRef}) dynamicComponentLayerContainerRef: ViewContainerRef | undefined;
 
   /**
    * ViewContainerRef to load the component dynamically
@@ -20,31 +21,10 @@ export class AppComponent {
   #viewContainerRef = inject(ViewContainerRef);
 
   /**
-   * HttpClient to load the JSON file
+   * Load the component dynamically at button click
    */
-  #httpClient = inject(HttpClient);
-
-  constructor() {
-    this.loadDynamicComponent();
-
-  }
-
-
-
-  /**
-   * Dynamically load the component from JSON file
-   */
-  private loadDynamicComponent() {
-    //loads the component from JSON file
-    this.#httpClient.get<DynamicModelJSON>('assets/dynamic-component.json').subscribe((dynamicComponentJSON: DynamicModelJSON) => {
-      dynamicComponentJSON.components.forEach((singleDynamicComponent: string) => {
-        const dynamicComponent = dynamicComponents[singleDynamicComponent];
-        if (!dynamicComponent) {
-          console.error(`Dynamic component ${singleDynamicComponent} not found`);
-          return;
-        }
-        this.#viewContainerRef.createComponent(dynamicComponent);
-      });
-    });
+  onAddDynamicComponent() {
+    const dynamicComponent = dynamicComponents['dynamicComponent'];
+    this.#viewContainerRef.createComponent(dynamicComponent);
   }
 }
