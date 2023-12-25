@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {DynamicModelJSON} from "./model/dynamic-model-json";
-import {DynamicComponent} from "./components/dynamic/dynamic.component";
+import {dynamicComponents} from "./model/dynamic-components";
 
 @Component({
   selector: 'app-root',
@@ -29,22 +29,7 @@ export class AppComponent {
 
   }
 
-  /**
-   * Create the component dynamically
-   * @param componentClassName
-   * @returns {any}
-   */
-  createComponentDynamicClass(componentClassName: string): any {
-    const registryClasses = {
-      DynamicComponent
-    };
-    for (let key in registryClasses) {
-      if (key === componentClassName) {
-        // @ts-ignore
-        return new registryClasses[key]();
-      }
-    }
-  }
+
 
   /**
    * Dynamically load the component from JSON file
@@ -53,9 +38,12 @@ export class AppComponent {
     //loads the component from JSON file
     this.#httpClient.get<DynamicModelJSON>('assets/dynamic-component.json').subscribe((dynamicComponentJSON: DynamicModelJSON) => {
       dynamicComponentJSON.components.forEach((singleDynamicComponent: string) => {
-        const dynamicComponentClass = this.createComponentDynamicClass(singleDynamicComponent);
-        console.log("dynamicComponentClass", dynamicComponentClass);
-        const componentRef = this.#viewContainerRef.createComponent(dynamicComponentClass);
+        const dynamicComponent = dynamicComponents[singleDynamicComponent];
+        if (!dynamicComponent) {
+          console.error(`Dynamic component ${singleDynamicComponent} not found`);
+          return;
+        }
+        const componentRef = this.#viewContainerRef.createComponent(dynamicComponent);
         console.log("componentRef", componentRef);
       });
     });
