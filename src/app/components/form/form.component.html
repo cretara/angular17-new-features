@@ -1,0 +1,27 @@
+<div id="form" [formGroup]="form">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input pInputText id="username" formControlName="username">
+  </div>
+
+  <div class="form-group">
+    <label for="accountType">Account type</label>
+    <p-dropdown id="accountType"
+                formControlName="accountType"
+                [options]="ACCOUNT_TYPES"
+                [filter]="true"
+                optionLabel="type"
+                filterBy="type"
+                class="form-control"
+                [ngStyle]="{'width':'100%'}"
+    />
+  </div>
+  @if (form.controls.accountType.value?.type === 'Admin') {
+  <div class="form-group">
+    <label for="message">Message</label>
+    <input pInputText id="message" formControlName="message">
+  </div>
+  }
+  <p-button (click)="onFormSubmit()" label="Submit" severity="success"/>
+
+</div>
