@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {ACCOUNT_TYPES, AccountType, FormModel} from "../../model/form-model";
 import {DropdownModule} from "primeng/dropdown";
@@ -18,7 +18,8 @@ import {ButtonModule} from "primeng/button";
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormComponent {
 
