@@ -22,6 +22,7 @@
     "@angular/ssr": "^17.2.0",
     "@doist/todoist-api-typescript": "^3.0.2",
     "express": "^4.18.2",
+    "ng-zorro-antd": "^17.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

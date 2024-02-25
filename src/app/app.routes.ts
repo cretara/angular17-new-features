@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import {AppComponent} from "./app.component";
-import {AnimeQuoteListComponent} from "./components/anime-quote-list/anime-quote-list.component";
+import {TodoListComponent} from "./components/anime-quote-list/todo-list.component";
 
 export const routes: Routes = [
   {
@@ -8,8 +8,8 @@ export const routes: Routes = [
     component: AppComponent
   },
   {
-    path: 'anime',
-    component: AnimeQuoteListComponent
+    path: 'todo',
+    component: TodoListComponent
   },
   {
     path: '**',

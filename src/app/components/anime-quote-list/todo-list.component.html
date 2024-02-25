@@ -1,0 +1,21 @@
+<div id="anime-list">
+  <div class="anime-card-form" [formGroup]="todoFormGroup">
+  @for (todo of todoList; track todo._id) {
+      <div class="anime-card">
+        <div>
+          Todo name: {{todo.todoName}}
+        </div>
+        <div>
+          Todo isCompleted: {{todo.isComplete}}
+        </div>
+        <div>
+          Created at: {{todo.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+        </div>
+        <div>
+          Updated at: {{todo.updatedAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+        </div>
+        <hr>
+      </div>
+   }
+  </div>
+</div>

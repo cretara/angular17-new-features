@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnimeQuoteListComponent } from './anime-quote-list.component';
+import { TodoListComponent } from './todo-list.component';
 
 describe('AnimeQuoteListComponent', () => {
-  let component: AnimeQuoteListComponent;
-  let fixture: ComponentFixture<AnimeQuoteListComponent>;
+  let component: TodoListComponent;
+  let fixture: ComponentFixture<TodoListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnimeQuoteListComponent]
+      imports: [TodoListComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(AnimeQuoteListComponent);
+
+    fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
