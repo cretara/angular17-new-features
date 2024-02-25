@@ -1,21 +1,33 @@
 <div id="anime-list">
-  <div class="anime-card-form" [formGroup]="todoFormGroup">
-  @for (todo of todoList; track todo._id) {
-      <div class="anime-card">
-        <div>
-          Todo name: {{todo.todoName}}
+  <div class="todo-form">
+      @for (todoForm of todoFormGroupArray; track todoForm.value.id;) {
+        <div class="todo-card" [formGroup]="todoForm">
+          <div>
+            Todo name: {{todoForm.controls['todoName'].value}}
+          </div>
+          <div>
+              <label nz-checkbox
+                     [nzDisabled]="!editMode"
+                     formControlName="isComplete">
+              Completed</label>
+          </div>
+          <div>
+            Created at: {{todoForm.controls['createdAt'].value | date: 'dd/MM/yyyy HH:mm:ss'}}
+          </div>
+          <div>
+            Updated at: {{todoForm.controls['updatedAt'].value | date: 'dd/MM/yyyy HH:mm:ss'}}
+          </div>
+          <hr>
         </div>
-        <div>
-          Todo isCompleted: {{todo.isComplete}}
-        </div>
-        <div>
-          Created at: {{todo.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
-        </div>
-        <div>
-          Updated at: {{todo.updatedAt | date: 'dd/MM/yyyy HH:mm:ss'}}
-        </div>
-        <hr>
-      </div>
    }
+  </div>
+  <div>
+    <button nz-button (click)="toggleEditMode()">
+      @if(editMode) {
+        <span>Non edit mode</span>
+      } @else {
+        <span>Edit mode</span>
+      }
+    </button>
   </div>
 </div>
