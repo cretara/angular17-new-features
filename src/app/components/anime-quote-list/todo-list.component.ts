@@ -1,7 +1,7 @@
 import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {Todo, TodoResponseApi} from "../../models/todo";
 import { map } from 'rxjs';
 import {DatePipe} from "@angular/common";
@@ -22,15 +22,23 @@ export class TodoListComponent implements OnInit {
 
   #destroyRef = inject(DestroyRef);
 
+  /**
+   * List of todos
+   */
   todoList: Todo[] = [];
 
-  #formBuilder = inject(FormBuilder);
+  /**
+   * @param {FormBuilder} #formBuilder
+   * @type {FormBuilder}
+   */
+  #formBuilder: FormBuilder = inject(FormBuilder);
 
-  todoFormGroup: FormGroup = this.#formBuilder.group(
+  todoFormGroup = this.#formBuilder.group(
     {
       todoName: [''],
       isComplete: ['']
     });
+
 
   ngOnInit() {
     this.#httpClient.get<TodoResponseApi>('https://calm-plum-jaguar-tutu.cyclic.app/todos')
@@ -40,6 +48,7 @@ export class TodoListComponent implements OnInit {
         console.log("todoListObservableValue",  todoListObservableValue);
         this.todoList = todoListObservableValue;
       });
+
   }
 
 }
